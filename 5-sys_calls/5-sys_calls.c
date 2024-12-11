@@ -152,3 +152,38 @@ void order() {
     listen();
     /* accept() goes here */
 }
+
+// accept():
+
+#include <sys/types.h>
+#include <sys/socket.h>
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen); 
+// addr will usually be a pointer to a local struct sockaddr_storage,  which is where the incoming 
+//connection info wiull go (with it you can determine which host is calling you from which port)
+
+//addrlen is local integer var which should be set to sizeof(struct sockaddr_storage) before passign to accept()
+
+
+// send(): send data over TCP
+int send(int sockfd, const void *msg, int len, int flags); // sockfd is socket descriptor to send data to, msg is pointer 
+                                                           //to data to be sent, len is data length in bytes - set flags to 0
+
+// Sample code involving send():
+void hi () {
+    char *msg = "Beej was here!";
+    int len, bytes_sent;
+
+    len = strlen(msg);
+    bytes_sent = send(sockfd, msg, len, 0);
+}
+
+// send() returns the number of bytes actually sent out, which might be less than the number you told it to send
+// If the value returned by send() doesn't match the value in len, its up to you to send the rest later.
+
+// recv(): receive data over TCP
+int recv(int sockfd, void *buf, int len, int flags);
+// sockfd is the socket descriptor to read from, buf is the buffer to read the information into, len is the
+// maximum length of the buffer, and flags can again be set to 0.
+
+//recv() returns the number of bytes actually read into the buffer, -1 on error, or 0 when the remote side has closed its connection with you.
+
