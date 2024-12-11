@@ -1,0 +1,8 @@
+{
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc-13",
+    "files.associations": {
+        "*.c": "c",
+        "socket.h": "c",
+        "string.h": "c"
+    }
+}
