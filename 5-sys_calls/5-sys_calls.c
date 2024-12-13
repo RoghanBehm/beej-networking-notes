@@ -187,3 +187,41 @@ int recv(int sockfd, void *buf, int len, int flags);
 
 //recv() returns the number of bytes actually read into the buffer, -1 on error, or 0 when the remote side has closed its connection with you.
 
+
+// sendto(): send data over UDP
+int sendto(int sockfd, const void *msg, int len, unsigned int flags, const struct sockaddr *to, socklen_t tolen);
+// to is a pointer to a struct sockaddr which contains dest IP address and port. tolen can be set to the sizeof *to or sizeof(struct sockaddr_storage)
+// probably get dest address structure frrom either getaddrinfo() or recvfrom() - or fill out by hand
+
+// recvfrom(): recieve data over UDP
+int recvfrom(int sockfd, void *buf, int len, unsigned int flags, struct sockaddr *from, int *fromlen);
+// from is a pointer to a local struct sockaddr_storage, fromlen is a pointer to a local int to be initialised to sizeof *from or sizeof(struct sockaddr_storage).
+// When func returns, fromlen will contain the length of the address actually stored in from
+
+// close(): close the connection on your socket descriptor
+close(sockfd);
+
+// shutdown(): close the connection in a certain direction, or both ways (like close())
+int shutdown(int sockfd, int how);
+// the following switch describes the behaviour of how() [switch is purely conceptual]
+
+switch(how) {
+    case 0:
+        //Further receives are disallowed
+        return;
+    case 1:
+        // Further sends are disallowed
+        return;
+    case 2: 
+        //Further sends and receives are disallowed (like close())
+        return;
+}
+
+// getpeername(): Get socket address of remote peer
+int getpeername(int sockfd, struct sockaddr *addr, int *addrlen);
+//Once you have their address, you can use inet_ntop(), getnameinfo(), or gethostbyaddr() to print or get more information.
+
+// gethostname(): Return the name of the computer that your program is running on
+#include <unistd.h>
+int gethostname(char *hostname, size_t size);
+//hostname is a pointer to an array of chars that will contain the hostname upon the function’s return, and size is the length in bytes of the hostname array.
